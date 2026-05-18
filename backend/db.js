@@ -54,7 +54,7 @@ const FeedSchema = new mongoose.Schema({
 FeedSchema.set('toJSON', { virtuals: true });
 FeedSchema.set('toObject', { virtuals: true });
 
-const Feed = mongoose.model('Feed', FeedSchema);
+const Feed = mongoose.model('Feed', FeedSchema, 'realtime_coaching_feeds');
 
 module.exports = {
   mongoose,
