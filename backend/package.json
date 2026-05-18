@@ -1,0 +1,22 @@
+{
+  "name": "coaching-feed-backend",
+  "version": "1.0.0",
+  "description": "Realtime coaching feed backend using Node, Express, Socket.IO, MongoDB, and Redis caching",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.1",
+    "redis": "^4.6.13",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "private": true
+}
