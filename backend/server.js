@@ -53,6 +53,11 @@ const io = new Server(server, {
 // Cache key helper
 const CACHE_KEY = 'feed:all';
 
+// Root Endpoint
+app.get('/', (req, res) => {
+  res.send('Coaching Feed Backend is running! Access the frontend at http://localhost:3000');
+});
+
 // Health Check Endpoint
 app.get('/health', (req, res) => {
   res.json({
