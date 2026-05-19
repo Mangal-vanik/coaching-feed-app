@@ -27,14 +27,12 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, postman)
     if (!origin) return callback(null, true);
-    
-    // Allow any localhost or vercel.app domains
+
     if (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('vercel.app')) {
       return callback(null, true);
     }
-    
+
     if (allowedOrigins.indexOf(origin) === -1) {
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
@@ -46,7 +44,6 @@ app.use(cors({
 
 app.use(express.json());
 
-// Socket.IO setup
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
@@ -57,15 +54,12 @@ const io = new Server(server, {
   pingInterval: 25000
 });
 
-// Cache key helper
 const CACHE_KEY = 'feed:all';
 
-// Root Endpoint
 app.get('/', (req, res) => {
   res.send('Coaching Feed Backend is running! Access the frontend at http://localhost:3000');
 });
 
-// Health Check Endpoint
 app.get('/health', (req, res) => {
   res.json({
     status: 'UP',
@@ -74,7 +68,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-// 1. GET /feed - Retrieve all feeds with Redis cache
 app.get('/feed', async (req, res) => {
   try {
     const redisClient = redisProvider.getRedisClient();
