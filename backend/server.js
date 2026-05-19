@@ -26,9 +26,15 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps, curl, postman)
     if (!origin) return callback(null, true);
+    
+    // Allow any localhost or vercel.app domains
+    if (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('vercel.app')) {
+      return callback(null, true);
+    }
+    
     if (allowedOrigins.indexOf(origin) === -1) {
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
@@ -72,7 +78,7 @@ app.get('/health', (req, res) => {
 app.get('/feed', async (req, res) => {
   try {
     const redisClient = redisProvider.getRedisClient();
-    
+
     // Check if redisClient is initialized yet
     if (!redisClient) {
       console.log('💾 [API] Cache client starting up. Fetching directly from MongoDB...');
@@ -143,7 +149,7 @@ app.post('/feed', async (req, res) => {
       tag,
       colorTheme: colorTheme || 'purple'
     });
-    
+
     await newFeed.save();
     console.log(`🟢 [API] Created new feed item ID: ${newFeed._id}`);
 
